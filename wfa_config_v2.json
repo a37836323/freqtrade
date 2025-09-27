@@ -1,0 +1,93 @@
+{
+  "strategy_config": {
+    "strategy_name": "Strategy_Simple_Indicator_Test",
+    "config_path": "./user_data/config.json",
+    "timeframe": "30m"
+  },
+  
+  "wfa_parameters": {
+    "is_window_months": 24,
+    "oos_window_months": 6,
+    "roll_step_months": 6,
+    "start_date": "20220101",
+    "end_date": "20241201"
+  },
+  
+  "optimization_settings": {
+    "method": "random",
+    "max_combinations": 300,
+    "grid_search_settings": {
+      "enable_grid_pruning": true,
+      "max_grid_combinations": 1000
+    },
+    "random_search_settings": {
+      "random_seed": 42,
+      "sampling_method": "uniform"
+    }
+  },
+  
+  "parameter_spaces": {
+    "custom_ranges": {
+      "vwma_length": {
+        "min": 10,
+        "max": 30,
+        "step": 2
+      },
+      "change_percentage": {
+        "min": 0.2,
+        "max": 0.4,
+        "step": 0.05
+      },
+      "rsi_length": {
+        "min": 6,
+        "max": 9,
+        "step": 1
+      },
+      "mfi_length": {
+        "min": 6,
+        "max": 9,
+        "step": 1
+      },
+      "rsi_mfi_below_level": {
+        "min": 37,
+        "max": 47,
+        "step": 2
+      },
+      "rsi_mfi_above_level": {
+        "min": 86,
+        "max": 100,
+        "step": 2
+      },
+      "trade_direction": {
+        "choices": ["ALL", "LONG", "SHORT"]
+      },
+      "hold_time_minutes": {
+        "min": 15,
+        "max": 60,
+        "step": 5
+      }
+    }
+  },
+  
+  "performance_criteria": {
+    "primary_metric": "sharpe",
+    "secondary_metrics": ["profit_total", "win_rate", "max_drawdown"],
+    "minimum_trades": 10,
+    "maximum_drawdown_threshold": 0.2
+  },
+  
+  "analysis_options": {
+    "export_detailed_results": true,
+    "save_csv_summary": true,
+    "include_parameter_analysis": true,
+    "generate_performance_charts": false,
+    "verbose_logging": true
+  },
+  
+  "risk_management": {
+    "skip_high_drawdown_params": true,
+    "drawdown_threshold": 0.5,
+    "minimum_profit_threshold": -0.1,
+    "require_positive_expectancy": false
+  }
+}

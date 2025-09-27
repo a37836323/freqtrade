@@ -1,0 +1,26 @@
+{
+  "analysis_info": {
+    "strategy_name": "Strategy_Simple_Indicator_Test",
+    "analysis_time": "2025-09-27T19:48:33.300591",
+    "is_window_months": 24,
+    "oos_window_months": 6,
+    "roll_step_months": 6,
+    "start_date": "20220101",
+    "end_date": "20241201",
+    "total_windows": 1
+  },
+  "window_results": [
+    {
+      "window_id": 1,
+      "is_timerange": "20220101-20240101",
+      "oos_timerange": "20240102-20240703",
+      "is_optimization_success": false,
+      "oos_backtest_success": false,
+      "best_params": null,
+      "is_performance": null,
+      "oos_performance": null,
+      "error_message": "IS优化失败: 优化结果为空"
+    }
+  ],
+  "combined_oos_trades": []
+}

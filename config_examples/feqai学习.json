@@ -1,0 +1,107 @@
+{
+    "$schema": "https://schema.freqtrade.io/schema.json",
+    "trading_mode": "futures",
+    "margin_mode": "isolated",
+    "max_open_trades": 5,
+    "stake_currency": "USDT",
+    "stake_amount": 200,
+    "tradable_balance_ratio": 1,
+    "fiat_display_currency": "USD",
+    "dry_run": true,
+    "timeframe": "3m",
+    "dry_run_wallet": 1000,
+    "cancel_open_orders_on_exit": true,
+    "unfilledtimeout": {
+        "entry": 10,
+        "exit": 30
+    },
+    "exchange": {
+        "name": "binance",
+        "key": "",
+        "secret": "",
+        "ccxt_config": {
+            "httpsProxy": "http://127.0.0.1:7890",
+            "wsProxy": "http://127.0.0.1:7890",
+            "timeout": 60000
+        },
+        "ccxt_async_config": {
+            "httpsProxy": "http://127.0.0.1:7890",
+            "wsProxy": "http://127.0.0.1:7890",
+            "timeout": 60000
+        },
+        "pair_whitelist": [
+            "ADA/USDT:USDT",
+            "TRX/USDT:USDT",
+            "SOL/USDT:USDT",
+            "DOGE/USDT:USDT",
+            "XRP/USDT:USDT"
+        ],
+        "pair_blacklist": []
+    },
+    "entry_pricing": {
+        "price_side": "same",
+        "use_order_book": true,
+        "order_book_top": 1,
+        "price_last_balance": 0.0,
+        "check_depth_of_market": {
+            "enabled": false,
+            "bids_to_ask_delta": 1
+        }
+    },
+    "exit_pricing": {
+        "price_side": "other",
+        "use_order_book": true,
+        "order_book_top": 1
+    },
+    "pairlists": [
+        {
+            "method": "StaticPairList"
+        }
+    ],
+    "freqai": {
+        "enabled": true, //开关
+        "purge_old_models": 2, //磁盘上保留的模型数量（与回测无关）。默认值为 2，这意味着模拟/实盘运行将保留最新的 2 个模型在磁盘上。设置为 0 则保留所有模型。此参数也接受布尔值以保持向后兼容性。
+        "train_period_days": 7, //用于训练数据的天数（滑动窗口的宽度）。
+        "backtest_period_days": 3, //在回测期间，从训练模型中推断的天数，然后滑动上面定义的 train_period_days 窗口并重新训练模型（更多信息请点击此处）。这可以是小数天，但请注意，提供的 timerange 将除以该数字，以得出完成回测所需的训练次数。
+        "live_retrain_hours": 0, //在模拟/实盘运行期间的再训练频率。  默认值： 0 （模型尽可能频繁地重新训练）。
+        "identifier": "unique-id_2", //当前模型的唯一 ID。如果模型保存到磁盘， identifier 允许重新加载特定的预训练模型/数据。
+        "feature_parameters": { //一个字典，包含用于构建特征集的参数。详细信息和示例在此处显示。
+            "include_timeframes": [ //一个时间框架列表， feature_engineering_expand_*() 中的所有指标都将为此创建。该列表作为特征添加到基础指标数据集中。
+                "1m",
+                "3m",
+                "5m"
+            ],
+            "include_corr_pairlist": [ //一个相关联的币种列表，FreqAI 将其作为附加特征添加到所有 pair_whitelist 币种中。在特征工程期间（详见此处）在 feature_engineering_expand_*() 中设置的所有指标都将为每个相关联的币种创建。相关联的币种特征将添加到基础指标数据集中。
+                "BTC/USDT:USDT",
+                "ETH/USDT:USDT"
+            ],
+            "label_period_candles": 24, //标签创建所基于的未来 K 线数量。这可以在 set_freqai_targets() 中使用（详细用法请参阅 templates/FreqaiExampleStrategy.py ）。此参数并非必需，您可以创建自定义标签并选择是否使用此参数。请参阅 templates/FreqaiExampleStrategy.py 以查看示例用法。
+            "include_shifted_candles": 5, //将前一根 K 线的数据特征添加到后一根 K 线中，以期增加历史信息。如果使用此功能，FreqAI 将复制并移动前 include_shifted_candles 根 K 线的所有数据特征，以便后续 K 线可以使用这些信息。
+            "DI_threshold": 0.9, //当设置为 > 0 时，激活使用差异指数进行异常值检测。有关其工作原理的详细信息，请参见此处。
+            "weight_factor": 0.9, //根据训练数据的时效性来加权（详情请参阅此处）。 数据类型：正浮点数（通常 < 1）。
+            "principal_component_analysis": false, //使用主成分分析自动降低数据集的维度。有关其工作原理的详细信息，请参见此处。
+            "use_SVM_to_remove_outliers": true,//训练支持向量机以检测并移除训练数据集以及传入数据点中的异常值。有关其工作原理的详细信息，请参见此处。
+            "indicator_periods_candles": [ //计算指标的时间周期。这些指标将添加到基础指标数据集中。
+            5,
+            8,
+            13,
+            21
+            ],
+            "plot_feature_importances": 20 //为每个模型创建前/后 plot_feature_importances 个特征的特征重要性图。图表存储在 user_data/models/<identifier>/sub-train-<COIN>_<timestamp>.html 中。 Default: 0.  默认值： 0 。
+        },
+        "data_split_parameters": { //数据分割参数
+            "test_size": 0.33, //用于测试而非训练的数据比例。 33%
+            "random_state": 1
+        },
+        "model_training_parameters": { //模型训练参数 ¶
+
+
+        }
+    },
+    "bot_name": "",
+    "force_entry_enable": true,
+    "initial_state": "running",
+    "internals": {
+        "process_throttle_secs": 5
+    }
+}

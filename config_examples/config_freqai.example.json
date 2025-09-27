@@ -8,7 +8,7 @@
     "tradable_balance_ratio": 1,
     "fiat_display_currency": "USD",
     "dry_run": true,
-    "timeframe": "3m",
+    "timeframe": "1m",
     "dry_run_wallet": 1000,
     "cancel_open_orders_on_exit": true,
     "unfilledtimeout": {
@@ -19,11 +19,18 @@
         "name": "binance",
         "key": "",
         "secret": "",
-        "ccxt_config": {},
-        "ccxt_async_config": {},
+        "ccxt_config": {
+            "httpsProxy": "http://127.0.0.1:7890",
+            "wsProxy": "http://127.0.0.1:7890",
+            "timeout": 60000
+          },
+          "ccxt_async_config": {
+            "httpsProxy": "http://127.0.0.1:7890",
+            "wsProxy": "http://127.0.0.1:7890",
+            "timeout": 60000
+          },
         "pair_whitelist": [
-            "1INCH/USDT:USDT",
-            "ALGO/USDT:USDT"
+            "ADA/USDT:USDT","TRX/USDT:USDT","SOL/USDT:USDT","DOGE/USDT:USDT","XRP/USDT:USDT"
         ],
         "pair_blacklist": []
     },
@@ -50,37 +57,40 @@
     "freqai": {
         "enabled": true,
         "purge_old_models": 2,
-        "train_period_days": 15,
-        "backtest_period_days": 7,
+        "train_period_days": 7,
+        "backtest_period_days": 3,
         "live_retrain_hours": 0,
-        "identifier": "unique-id",
+        "identifier": "unique-id_2",
         "feature_parameters": {
             "include_timeframes": [
+                "1m",
                 "3m",
-                "15m",
-                "1h"
+                "5m"
             ],
             "include_corr_pairlist": [
                 "BTC/USDT:USDT",
                 "ETH/USDT:USDT"
             ],
-            "label_period_candles": 20,
-            "include_shifted_candles": 2,
+            "label_period_candles": 24,
+            "include_shifted_candles": 5,
             "DI_threshold": 0.9,
             "weight_factor": 0.9,
             "principal_component_analysis": false,
             "use_SVM_to_remove_outliers": true,
             "indicator_periods_candles": [
-                10,
-                20
+                5,
+                8,
+                13,
+                21
             ],
-            "plot_feature_importances": 0
+            "plot_feature_importances": 20
         },
         "data_split_parameters": {
             "test_size": 0.33,
             "random_state": 1
         },
-        "model_training_parameters": {}
+        "model_training_parameters": {
+        }
     },
     "bot_name": "",
     "force_entry_enable": true,

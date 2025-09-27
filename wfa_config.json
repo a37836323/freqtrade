@@ -1,0 +1,49 @@
+{
+  "strategy_config": {
+    "strategy_name": "Strategy_Simple_Indicator_Test",
+    "config_path": "./user_data/config.json",
+    "timeframe": "30m"
+  },
+  
+  "wfa_parameters": {
+    "is_window_months": 24,
+    "oos_window_months": 6,
+    "roll_step_months": 6,
+    "start_date": "20220101",
+    "end_date": "20241201"
+  },
+  
+  "optimization_settings": {
+    "hyperopt_epochs": 300,
+    "hyperopt_min_trades": 50,
+    "hyperopt_loss": "SharpeHyperOptLoss",
+    "spaces": ["buy", "sell"],
+    "random_state": 42
+  },
+  
+  "analysis_options": {
+    "export_trades": true,
+    "detailed_logging": true,
+    "save_csv_summary": true,
+    "include_is_performance": true
+  },
+  
+  "market_classification": {
+    "bull_market_threshold": 0.05,
+    "bear_market_threshold": -0.05,
+    "enable_market_analysis": true
+  },
+  
+  "performance_thresholds": {
+    "excellent_positive_ratio": 0.7,
+    "excellent_avg_return": 0.02,
+    "good_positive_ratio": 0.6,
+    "good_avg_return": 0.0
+  },
+  
+  "stability_analysis": {
+    "stable_cv_threshold": 0.1,
+    "moderate_cv_threshold": 0.3,
+    "enable_parameter_stability": true
+  }
+}
